@@ -1,0 +1,105 @@
+﻿@model IEnumerable<OrnekProje.Models.ViewModels.BookList_VM>
+
+@{
+    ViewData["Title"] = "Index";
+
+    // Kullanıcıdan gelen Id bilgisini alıyoruz
+    int? currentUserId = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        currentUserId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+    }
+}
+
+<h1>Kitaplar Listesi</h1>
+
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+    <p>
+        <a asp-action="Create" class="btn btn-outline-primary">Yeni Kitap Ekle</a>
+    </p>
+}
+    
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PageCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categories)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerFullName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PageCount)
+                </td>
+
+                <td>
+                    @if (item.Categories != null && item.Categories.Any())
+                    {
+                        foreach (var category in item.Categories)
+                        {
+                            <span >@category <br /></span>
+                        }
+                    }
+                    
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerFullName)
+                </td>
+                <td>
+                    @* Her kitapta Detaylar butonu çıkar *@
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detaylar</a>
+                    
+
+                    @* SADECE kitabın sahibi ise Edit/Sil butonları çıkar *@
+
+                    @if (item.OwnerId == currentUserId)
+                    {
+                        <br />
+                        
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm ms-1">Düzenle</a> 
+                        <br />
+                                           
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm ms-1">Sil</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

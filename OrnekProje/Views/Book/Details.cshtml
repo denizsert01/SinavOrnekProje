@@ -1,0 +1,56 @@
+﻿@model OrnekProje.Models.ViewModels.BookDetails_VM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Kitap Detayları</h1>
+
+<div>
+    @* <h4>BookDetails_VM</h4> *@
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Summary)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Summary)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PageCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PageCount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OwnerEmail)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OwnerEmail)
+        </dd>
+
+        @* Kategoriler *@
+        <dt class="col-sm-2">
+            Kategoriler
+        </dt>
+        <dd class="col-sm-10">
+            @string.Join(", ", Model.Categories)
+        </dd>
+    </dl>
+</div>
+<div>
+    
+    <a asp-action="Index" class="btn btn-outline-primary mt-3">Listeye Dön</a>
+</div>

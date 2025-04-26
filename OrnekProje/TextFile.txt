@@ -1,0 +1,59 @@
+﻿Adımlar
+- Proje oluştur 
+- Paketleri yükle
+- Klasör yapısı kur (Entities, VMs, Data, Views, Repositories, Interfaces )
+- Entity'leri yaz (db constraints: Required, MaxLength)
+- DbContext yaz 
+- Connection String ayarla
+- Program.cs ayarla
+- Add-Migration & Update-Database 
+- ViewModel'leri yaz (migrationdan önce de yazılabilir, db ile alakası yok. Validationları taşır)
+- Repository ve Interface yaz | DB kurulduktan sonra
+- Controllerlar yaz(Account-Book-Home-) | DB hazır olunca
+- Viewlar yaz
+- Validationları View'de göster ("All")
+- Navbar yetkilerini ayarla (@if (User.Identity.IsAuthenticated))
+- [Authorize] koruması ekle (Create/Edit/Delete action'larına)
+- Final testleri yap 
+
+
+Gerekli NuGet Paketleri:
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+
+Projede Gerekli Klasörleri Aç
+Models → Entity'ler
+ViewModels 
+Data → DbContext 
+Controllers
+Views 
+Repositories 
+Interfaces 
+
+_______________________________________________
+"ConnectionStrings": {
+  "DefaultConnection": "Server=.;Database=KitapDB;Trusted_Connection=True;MultipleActiveResultSets=true;"
+}
+
+_______________________________________________
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options => 
+{
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+});
+
+______________________________________________
+Add-Migration InitialCreate
+Update-Database
